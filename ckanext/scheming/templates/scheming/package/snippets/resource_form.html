@@ -28,6 +28,10 @@
 
   {% set profiles_list = profiles.split(' ') %}
 
+  {% if 'resource_groups' in profiles_list %}
+     <p>Resource groups enabled</p>
+  {% endif %}
+
   {%- for field in schema.resource_fields -%}
     {%- snippet 'scheming/snippets/form_field.html',
       field=field, data=data, errors=errors,
