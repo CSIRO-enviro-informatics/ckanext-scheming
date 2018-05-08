@@ -18,20 +18,15 @@
   {%- endif -%}
 
   {%- set schema = h.scheming_get_dataset_schema(dataset_type) -%}
-  {%- set profiles = schema.profiles -%}
-  {%- if not profiles -%}
-    <p>
-    profiles not passed to template. your version of CKAN
-    might not be compatible with ckanext-scheming
-    </p>
-  {%- endif -%}
+  {%- if not schema.profiles -%}
+  {%- else -%}
+    {%- set profiles = schema.profiles -%}
+    {% set profiles_list = profiles.split(' ') %}
 
-  {% set profiles_list = profiles.split(' ') %}
-
-  {% if 'resource_groups' in profiles_list %}
+    {% if 'resource_groups' in profiles_list %}
      <p>Resource groups enabled</p>
-  {% endif %}
-
+    {% endif %}
+  {%- endif -%}
   {%- for field in schema.resource_fields -%}
     {%- snippet 'scheming/snippets/form_field.html',
       field=field, data=data, errors=errors,
